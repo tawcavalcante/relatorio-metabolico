@@ -11,7 +11,7 @@ O projeto aplica o padrão arquitetural **BMVC** (Bottle Model-View-Controller),
 
 | Nível | Propósito | Interface / Recursos | Vídeo | Commit de entrega | Status |
 |:---:|---|---|---------------|----------------------|:---:|
-| **1** | Servir página estática personalizada com HTML, CSS e JS funcionais e ativos | Web (`HTML` + `CSS` + `JS`) | [Em breve]() | `A definir` | Em andamento |
+| **1** | Servir página estática personalizada com HTML, CSS e JS funcionais e ativos | Web (`HTML` + `CSS` + `JS`) | [link](https://youtu.be/N7vum7XAaRY) | `A definir` | Enviado |
 | **2** | Implementação de modelos em Python com operações completas de CRUD | Web (`TPL` + Persistência) | [Em breve]() | `A definir` | Pendente |
 | **3** | Controle de acesso de usuários com sistema de login e rotas restritas | Web (`Login` + Sessão) | [Em breve]() | `A definir` | Pendente |
 | **4** | Atualização assíncrona de dados na página em tempo real | Web (`WebSockets`) | [Em breve]() | `A definir` | Pendente |
