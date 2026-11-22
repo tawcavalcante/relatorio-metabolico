@@ -25,6 +25,18 @@ def helper(info= None):
 def action_first_pag():
     return ctl.render('relatorio_metabolico')
 
+@app.route('/avaliacao/salvar', method='POST')
+def salvar_avaliacao():
+    return ctl.salvar_avaliacao()
+
+@app.route('/avaliacao/editar/<avaliacao_id>', method='GET')
+def editar_avaliacao(avaliacao_id):
+    return ctl.editar_avaliacao(avaliacao_id)
+
+@app.route('/avaliacao/excluir/<avaliacao_id>', method='GET')
+def excluir_avaliacao(avaliacao_id):
+    return ctl.excluir_avaliacao(avaliacao_id)
+
 
 #-----------------------------------------------------------------------------
 
