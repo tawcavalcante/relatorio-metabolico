@@ -17,6 +17,9 @@ class DataRecord:
                 user_data = json.load(arquivo_json)
                 self._user_accounts = [UserAccount(**data) for data in user_data]
         except (FileNotFoundError, json.JSONDecodeError):
+            self._user_accounts = []
+
+        if not self._user_accounts:
             self._user_accounts = [UserAccount("Tawan", "123456")]
             self._salvar_arquivo()
 
@@ -26,7 +29,6 @@ class DataRecord:
             json.dump(user_data, arquivo_json, indent=4, ensure_ascii=False)
 
     def book(self, username, password):
-        # Impede usuários duplicados (regra citada na pág. 12 do helper)
         if any(u.username == username for u in self._user_accounts):
             return False
         new_user = UserAccount(username, password)
