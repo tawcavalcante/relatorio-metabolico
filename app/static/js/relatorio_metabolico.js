@@ -1,135 +1,62 @@
-// Limites Científicos
-const limits = {
-    protein: { min: 1.2, max: 3.0, optimalMin: 1.6, optimalMax: 2.2 },
-    fat: { min: 0.5, max: 1.5, optimalMin: 0.7, optimalMax: 1.2 }
-};
+document.addEventListener("DOMContentLoaded", () => {
+    const genderInput = document.getElementById("gender");
+    const genderBtns = document.querySelectorAll(".gender-btn");
+    const btnCalcular = document.getElementById("btn-calcular");
 
-function validateMacros(protRatio, fatRatio) {
-    const protWarning = document.getElementById('prot-warning');
-    const fatWarning = document.getElementById('fat-warning');
-    let isValid = true;
-
-    // Validação de Proteína
-    if (protRatio > limits.protein.max) {
-        protWarning.textContent = "Acima do limite científico.";
-        protWarning.className = "warning-msg warning-red";
-        isValid = false;
-    } else if (protRatio < limits.protein.min) {
-        protWarning.textContent = "Abaixo do necessário.";
-        protWarning.className = "warning-msg warning-red";
-        isValid = false;
-    } else if (protRatio >= limits.protein.optimalMin && protRatio <= limits.protein.optimalMax) {
-        protWarning.textContent = "Faixa ideal hipertrofia.";
-        protWarning.className = "warning-msg warning-green";
-    } else {
-        protWarning.textContent = "Aceitável, mas fora do ideal.";
-        protWarning.className = "warning-msg warning-orange";
-    }
-
-    // Validação de Gordura
-    if (fatRatio > limits.fat.max) {
-        fatWarning.textContent = "Desnecessariamente alto.";
-        fatWarning.className = "warning-msg warning-red";
-        isValid = false;
-    } else if (fatRatio < limits.fat.min) {
-        fatWarning.textContent = "Risco hormonal (muito baixo).";
-        fatWarning.className = "warning-msg warning-red";
-        isValid = false;
-    } else if (fatRatio >= limits.fat.optimalMin && fatRatio <= limits.fat.optimalMax) {
-        fatWarning.textContent = "Faixa ideal.";
-        fatWarning.className = "warning-msg warning-green";
-    } else {
-        fatWarning.textContent = "Aceitável.";
-        fatWarning.className = "warning-msg warning-orange";
-    }
-
-    return isValid;
-}
-
-document.getElementById('calculate-btn').addEventListener('click', function() {
-    const gender = document.querySelector('input[name="gender"]:checked').value;
-    const age = parseFloat(document.getElementById('age').value);
-    const weight = parseFloat(document.getElementById('weight').value);
-    const height = parseFloat(document.getElementById('height').value);
-    const activityMulti = parseFloat(document.getElementById('activity').value);
-    const protRatio = parseFloat(document.getElementById('protein-ratio').value);
-    const fatRatio = parseFloat(document.getElementById('fat-ratio').value);
-
-    if (!age || !weight || !height) return;
-
-    // Checa limites científicos antes de calcular
-    const isValid = validateMacros(protRatio, fatRatio);
-    if (!isValid) {
-        // Se quiser impedir o cálculo ao errar a proporção, descomente a linha abaixo
-        // return; 
-    }
-
-    // Fórmula Mifflin-St Jeor
-    let tmb = (10 * weight) + (6.25 * height) - (5 * age);
-    tmb += (gender === 'male') ? 5 : -161;
-
-    const tdee = Math.round(tmb * activityMulti);
-    const water = (weight * 0.040).toFixed(1); // Usando 40ml para rotina de treinos
-
-    // Atualiza os Cards
-    document.getElementById('tmb-result').innerText = Math.round(tmb);
-    document.getElementById('tdee-result').innerText = tdee;
-    document.getElementById('water-result').innerText = water;
-
-    // Gramas fixas
-    const protGrams = Math.round(weight * protRatio);
-    const fatGrams = Math.round(weight * fatRatio);
-    const fixedKcal = (protGrams * 4) + (fatGrams * 9);
-
-    // Estratégias (Tabela)
-    const scenarios = [
-        { name: "Perder 500g/sem", kcal: tdee - 500, class: "" },
-        { name: "Perder 250g/sem", kcal: tdee - 250, class: "" },
-        { name: "Manter o Peso", kcal: tdee, class: "" },
-        { name: "Ganhar 250g/sem", kcal: tdee + 250, class: "" },
-        { name: "Ganhar 500g/sem", kcal: tdee + 500, class: "" }
-    ];
-
-    const tbody = document.getElementById('table-body');
-    tbody.innerHTML = "";
-
-    scenarios.forEach(scenario => {
-        const carbKcal = scenario.kcal - fixedKcal;
-        const carbGrams = carbKcal > 0 ? Math.round(carbKcal / 4) : 0;
-
-        const tr = document.createElement('tr');
-        if (scenario.class) tr.className = scenario.class;
-        
-        tr.innerHTML = `
-            <td>${scenario.name}</td>
-            <td>${scenario.kcal} kcal</td>
-            <td>${carbGrams}g</td>
-            <td>${protGrams}g</td>
-            <td>${fatGrams}g</td>
-        `;
-        tbody.appendChild(tr);
-
-        // Lógica de clique para destacar a linha selecionada
-        tr.addEventListener('click', function() {
-            const allRows = tbody.querySelectorAll('tr');
-            allRows.forEach(row => row.classList.remove('selected-row'));
-            this.classList.add('selected-row');
+    genderBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            genderBtns.forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            genderInput.value = btn.dataset.gender;
         });
     });
-});
 
-window.onload = () => {
-    document.getElementById('calculate-btn').click();
-};
+    if (btnCalcular) {
+        btnCalcular.addEventListener("click", () => {
+            const sexo = genderInput.value;
+            const idade = parseFloat(document.getElementById("age").value) || 20;
+            const peso = parseFloat(document.getElementById("weight").value) || 75;
+            const altura = parseFloat(document.getElementById("height").value) || 172;
+            const atividade = parseFloat(document.getElementById("activity").value) || 1.55;
+            const protRatio = parseFloat(document.getElementById("prot_ratio").value) || 2.0;
+            const fatRatio = parseFloat(document.getElementById("fat_ratio").value) || 1.0;
 
-const protInput = document.getElementById('protein-ratio');
-const fatInput = document.getElementById('fat-ratio');
+            const base = 10 * peso + 6.25 * altura - 5 * idade;
+            const tmb = Math.round(sexo === "male" ? base + 5 : base - 161);
+            const tdee = Math.round(tmb * atividade);
+            const agua = ((peso * 40) / 1000).toFixed(1);
 
-// Escuta a digitação e valida na hora
-protInput.addEventListener('input', () => {
-    validateMacros(parseFloat(protInput.value), parseFloat(fatInput.value));
-});
+            document.getElementById("tmb-value").textContent = tmb;
+            document.getElementById("tdee-value").textContent = tdee;
+            document.getElementById("water-value").textContent = agua;
 
-fatInput.addEventListener('input', () => {
-    validateMacros(parseFloat(protInput.value), parseFloat(fatInput.value));
+            const protG = Math.round(peso * protRatio);
+            const gordG = Math.round(peso * fatRatio);
+
+            const estrategias = [
+                { nome: "Perder 500g/sem", delta: -500 },
+                { nome: "Perder 250g/sem", delta: -250 },
+                { nome: "Manter o Peso", delta: 0 },
+                { nome: "Ganhar 250g/sem", delta: 250 },
+                { nome: "Ganhar 500g/sem", delta: 500 },
+            ];
+
+            const tbody = document.getElementById("strategies-body");
+            tbody.innerHTML = estrategias
+                .map((est) => {
+                    const kcal = tdee + est.delta;
+                    const carb = Math.max(0, Math.round((kcal - (protG * 4 + gordG * 9)) / 4));
+                    return `
+                        <tr>
+                            <td>${est.nome}</td>
+                            <td>${kcal} kcal</td>
+                            <td>${carb}g</td>
+                            <td>${protG}g</td>
+                            <td>${gordG}g</td>
+                        </tr>
+                    `;
+                })
+                .join("");
+        });
+    }
 });
