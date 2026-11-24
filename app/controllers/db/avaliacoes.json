@@ -1,38 +1,14 @@
 [
     {
-        "id": "6c018d63",
-        "titulo": "bulking",
+        "id": "0be723e4",
+        "titulo": "Inicio Bulking - Sem 4",
         "sexo": "male",
         "idade": 20,
-        "peso": 75.0,
+        "peso": 77.0,
         "altura": 172.0,
         "atividade": 1.55,
         "prot_ratio": 2.0,
         "fat_ratio": 1.0,
-        "data_registro": "22/11/2026"
-    },
-    {
-        "id": "68b1e82b",
-        "titulo": "cutting",
-        "sexo": "male",
-        "idade": 23,
-        "peso": 75.0,
-        "altura": 172.0,
-        "atividade": 1.725,
-        "prot_ratio": 2.4,
-        "fat_ratio": 1.0,
-        "data_registro": "22/11/2026"
-    },
-    {
-        "id": "adbfa91e",
-        "titulo": "zcasdasd",
-        "sexo": "male",
-        "idade": 20,
-        "peso": 75.0,
-        "altura": 172.0,
-        "atividade": 1.55,
-        "prot_ratio": 2.0,
-        "fat_ratio": 1.0,
-        "data_registro": "22/11/2026"
+        "data_registro": "23/11/2026"
     }
 ]
